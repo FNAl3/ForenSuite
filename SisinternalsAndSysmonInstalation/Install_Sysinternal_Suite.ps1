@@ -18,7 +18,8 @@ $SysmonServiceName = "Sysmon64" # Default for 64-bit, fallback to Sysmon
 # Check architecture
 if ($env:PROCESSOR_ARCHITECTURE -eq "AMD64") {
     $SysmonExeName = "Sysmon64.exe"
-} else {
+}
+else {
     $SysmonExeName = "Sysmon.exe"
     $SysmonServiceName = "Sysmon"
 }
@@ -29,7 +30,8 @@ if (Get-Service -Name $SysmonServiceName -ErrorAction SilentlyContinue) {
     Write-Host "   -> El servicio '$SysmonServiceName' ya está instalado y detectado." -ForegroundColor Green
     Write-Host "   -> No se realizarán cambios. Saliendo."
     Exit
-} else {
+}
+else {
     Write-Host "   -> El servicio no está instalado. Continuando..."
 }
 
@@ -37,7 +39,8 @@ if (Get-Service -Name $SysmonServiceName -ErrorAction SilentlyContinue) {
 if (-not (Test-Path -Path $InstallPath)) {
     Write-Host "2. Creando directorio $InstallPath..." -ForegroundColor Cyan
     New-Item -ItemType Directory -Force -Path $InstallPath | Out-Null
-} else {
+}
+else {
     Write-Host "2. El directorio $InstallPath ya existe." -ForegroundColor Gray
 }
 
@@ -56,7 +59,8 @@ if (-not (Test-Path "$InstallPath\$SysmonExeName")) {
         Write-Error "Error al descargar o descomprimir Sysinternals. Verifica tu conexión."
         Break
     }
-} else {
+}
+else {
     Write-Host "3. Archivos de Sysinternals ya presentes. Saltando descarga." -ForegroundColor Gray
 }
 
@@ -76,15 +80,16 @@ Set-Location -Path $InstallPath
 # Construir comando
 if (Test-Path ".\$ConfigName") {
     $InstallCommand = ".\$SysmonExeName -accepteula -i $ConfigName"
-} else {
+}
+else {
     Write-Warning "Archivo de configuración no encontrado. Instalando con configuración por defecto."
     $InstallCommand = ".\$SysmonExeName -accepteula -i"
 }
 
 try {
     # Ejecutar
-    Invoke-Expression $InstallCommand
-} catch {
+}
+catch {
     Write-Error "Ocurrió un error al intentar ejecutar el comando de instalación."
 }
 
@@ -93,6 +98,7 @@ Write-Host "----------------------------------------"
 if (Get-Service -Name $SysmonServiceName -ErrorAction SilentlyContinue) {
     Write-Host "¡ÉXITO! Sysmon está instalado y corriendo." -ForegroundColor Green
     Write-Host "Ruta de logs: Applications and Services Logs/Microsoft/Windows/Sysmon/Operational" -ForegroundColor Gray
-} else {
+}
+else {
     Write-Host "Aviso: No se pudo verificar si el servicio arrancó inmediatamente. Puede requerir unos segundos o reinicio." -ForegroundColor Yellow
 }
