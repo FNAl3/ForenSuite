@@ -115,7 +115,7 @@ if ($PSCmdlet.ShouldProcess("$SysmonExeName", "Ejecutar instalación con argumen
 # 7. Verificación final
 Write-Host "----------------------------------------"
 if (Get-Service -Name $SysmonServiceName -ErrorAction SilentlyContinue) {
-    Write-Host "¡ÉXITO! Sysmon está instalado y corriendo." -ForegroundColor Green
+    Write-Host "¡ÉXITO! Sysmon está instalado correctamente." -ForegroundColor Green
     Write-Host "Ruta de logs: Applications and Services Logs/Microsoft/Windows/Sysmon/Operational" -ForegroundColor Gray
 }
 else {
